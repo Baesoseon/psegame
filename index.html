@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>포즈 매칭 게임</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>포즈 매칭 게임</h1>
+        
+        <div class="game-area">
+            <div class="left-panel">
+                <h3>목표 포즈</h3>
+                <div class="target-pose">
+                    <img id="targetImage" src="images/1.jpg" alt="목표 포즈">
+                </div>
+                <div class="pose-info">
+                    <p>현재 단계: <span id="currentLevel">1</span> / <span id="totalLevels">4</span></p>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <h3>웹캠 화면</h3>
+                <div class="webcam-container">
+                    <video id="webcam" autoplay muted></video>
+                    <canvas id="poseCanvas" width="640" height="480"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <div class="progress-section">
+            <h3>일치도</h3>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressFill"></div>
+                <span class="progress-text" id="progressText">0%</span>
+            </div>
+            <p class="match-percentage" id="matchPercentage">일치도: 0%</p>
+        </div>
+        
+        <div class="timer-section">
+            <p>경과 시간: <span id="elapsedTime">00:00</span></p>
+            <p>레벨 제한 시간: <span id="levelTimeLeft">01:00</span></p>
+        </div>
+        
+        <div class="controls">
+            <button id="startBtn">게임 시작</button>
+            <button id="resetBtn">다시 시작</button>
+        </div>
+        
+        <div id="gameComplete" class="game-complete hidden">
+            <h2>🎉 게임 완성! 🎉</h2>
+            <p>총 소요 시간: <span id="totalTime">00:00</span></p>
+            <p>축하합니다! 모든 포즈를 완성했습니다!</p>
+            
+            <div class="ai-explanation">
+                <div class="explanation-trigger">
+                    <span class="info-icon">ℹ️</span>
+                    <span class="trigger-text">AI 원리 알아보기</span>
+                </div>
+                <div class="explanation-content hidden">
+                    <h4>🤖 인공지능이 어떻게 포즈를 인식할까요?</h4>
+                    <div class="explanation-text">
+                        <p><strong>1. 뼈대 감지:</strong> AI가 웹캠 화면에서 사람의 몸을 보고, 머리, 어깨, 팔, 다리 등의 주요 부위를 찾아요.</p>
+                        <p><strong>2. 점수 계산:</strong> 각 부위가 얼마나 정확하게 감지되었는지 0~100점으로 매겨요.</p>
+                        <p><strong>3. 자세 비교:</strong> 사용자의 자세와 목표 자세를 비교해서 얼마나 비슷한지 계산해요.</p>
+                        <p><strong>4. 학습된 모델:</strong> 수많은 사람 사진으로 훈련받은 AI가 실시간으로 분석해요!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div id="gameFailed" class="game-failed hidden">
+            <h2>⏰ 시간 초과!</h2>
+            <p>1분 안에 포즈를 완성하지 못했습니다.</p>
+            <p>더 빠르게 정확한 자세를 취해보세요!</p>
+            <div class="failed-controls">
+                <button id="retryBtn">다시 도전</button>
+                <button id="restartBtn">처음부터 시작</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- TensorFlow.js 및 PoseNet 모델 -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.11.0/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/pose-detection@2.0.0/dist/pose-detection.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
